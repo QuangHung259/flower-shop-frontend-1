@@ -11,19 +11,22 @@ import {
 } from "@mui/material";
 import { createCategory } from "@/lib/categoryApi";
 import { useState } from "react";
+import { useRouter } from "next/navigation"; //App Router
 
 export default function CategoryFormPage() {
   const { register, handleSubmit, reset } = useForm();
   const [error, setError] = useState(null);
+  const router = useRouter(); //Khởi tạo router
 
   const onSubmit = async (data) => {
     try {
       await createCategory(data);
-      alert("✅ Tạo danh mục thành công!");
+      alert("Tạo danh mục thành công!");
       reset();
       setError(null);
+      router.push("/admin/categories"); // Chuyển hướng sau khi thành công
     } catch (err) {
-      console.error("❌ Lỗi:", err);
+      console.error("Lỗi:", err);
       setError(err?.response?.data?.message || "Lỗi khi tạo danh mục");
     }
   };
